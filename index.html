@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logic Lab | Digital Logic Simulator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #101827;
+      color: white;
+      text-align: center;
+      padding: 30px 16px;
+    }
+
+    h1 { color: #60a5fa; }
+    .panel {
+      max-width: 650px;
+      margin: 20px auto;
+      padding: 24px;
+      background: #1e293b;
+      border-radius: 16px;
+    }
+
+    button {
+      padding: 12px 24px;
+      margin: 8px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .switch { background: #334155; color: white; }
+    .active { background: #16a34a; }
+    .gate {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px;
+      margin: 10px 0;
+      background: #334155;
+      border-radius: 8px;
+    }
+
+    .output { color: #86efac; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>⚡ Logic Lab</h1>
+  <p>Explore the building blocks of computers.</p>
+
+  <div class="panel">
+    <h2>Inputs</h2>
+    <p>Click a switch to change its value.</p>
+
+    <button id="switchA" class="switch" onclick="toggle('A')">
+      Input A: 0
+    </button>
+    <button id="switchB" class="switch" onclick="toggle('B')">
+      Input B: 0
+    </button>
+
+    <h2>Logic Gates</h2>
+    <div id="results"></div>
+  </div>
+
+  <script>
+    let A = 0;
+    let B = 0;
+
+    function toggle(input) {
+      if (input === 'A') A = 1 - A;
+      else B = 1 - B;
+      update();
+    }
+
+    function update() {
+      document.getElementById('switchA').textContent =
+        `Input A: ${A}`;
+      document.getElementById('switchB').textContent =
+        `Input B: ${B}`;
+
+      document.getElementById('switchA').className =
+        A ? 'switch active' : 'switch';
+      document.getElementById('switchB').className =
+        B ? 'switch active' : 'switch';
+
+      const gates = [
+        ['AND', A & B],
+        ['OR', A | B],
+        ['NOT A', 1 - A],
+        ['NOT B', 1 - B],
+        ['XOR', A ^ B],
+        ['NAND', 1 - (A & B)],
+        ['NOR', 1 - (A | B)]
+      ];
+
+      document.getElementById('results').innerHTML =
+        gates.map(([name, value]) =>
+          `<div class="gate">
+            <span>${name}</span>
+            <span class="output">${value}</span>
+          </div>`
+        ).join('');
+    }
+
+    update();
+  </script>
+</body>
+</html>
